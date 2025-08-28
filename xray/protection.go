@@ -4,6 +4,7 @@ import (
 	_ "unsafe"
 
 	"github.com/df-mc/dragonfly/server/world"
+	"github.com/df-mc/dragonfly/server/world/chunk"
 	"github.com/dgraph-io/ristretto/v2"
 )
 
@@ -13,6 +14,7 @@ type Protection struct {
 	transparentBlocks []bool
 	cache             *ristretto.Cache[[]byte, []byte]
 	storage           Storage
+	stoneRid          uint32
 }
 
 // NewProtection created new instance.
@@ -24,11 +26,13 @@ func NewProtection(cache *ristretto.Cache[[]byte, []byte], storage Storage) *Pro
 		storage = NopStorage{}
 	}
 
+	stoneRid, _ := chunk.StateToRuntimeID("minecraft:stone", nil)
 	count := len(world.Blocks())
 	return &Protection{
 		blocksToHide:      make([]bool, count),
 		transparentBlocks: make([]bool, count),
 		cache:             cache,
+		stoneRid:          stoneRid,
 	}
 }
 

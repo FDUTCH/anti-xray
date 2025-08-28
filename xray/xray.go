@@ -13,24 +13,6 @@ import (
 //go:linkname decodeSubChunk github.com/df-mc/dragonfly/server/world/chunk.decodeSubChunk
 func decodeSubChunk(buf *bytes.Buffer, c *chunk.Chunk, index *byte, e chunk.Encoding) (*chunk.SubChunk, error)
 
-func init() {
-	rid, ok := chunk.StateToRuntimeID("minecraft:air", nil)
-	if !ok {
-		panic("cannot find air runtime ID")
-	}
-	airRid = rid
-	rid, ok = chunk.StateToRuntimeID("minecraft:stone", nil)
-	if !ok {
-		panic("cannot find air runtime ID")
-	}
-	stoneRid = rid
-}
-
-var (
-	airRid   uint32
-	stoneRid uint32
-)
-
 func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos protocol.SubChunkPos) bool {
 	if sub.Empty() {
 		return false
@@ -61,7 +43,7 @@ func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos pr
 			for z := range byte(16) {
 				bl := sub.Block(x, y, z, 0)
 				if p.blocksToHide[bl] && p.mask(sub, x, y, z) {
-					sub.SetBlock(x, y, z, 0, stoneRid)
+					sub.SetBlock(x, y, z, 0, p.stoneRid)
 					blockPos := cube.Pos{
 						int(pos.X()) + int(x),
 						int(pos.Y()) + int(y),
