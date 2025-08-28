@@ -27,7 +27,7 @@ func (p *Protection) HandleSubchunk(sub *packet.SubChunk) {
 
 		if c == nil {
 			dim, _ := world.DimensionByID(int(sub.Dimension))
-			c = chunk.New(airRid, dim.Range())
+			c = chunk.New(p.airRid, dim.Range())
 		}
 
 		buf := bytes.NewBuffer(entry.RawPayload)

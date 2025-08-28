@@ -14,7 +14,7 @@ type Protection struct {
 	transparentBlocks []bool
 	cache             *ristretto.Cache[[]byte, []byte]
 	storage           Storage
-	stoneRid          uint32
+	airRid, stoneRid  uint32
 }
 
 // NewProtection created new instance.
@@ -27,12 +27,15 @@ func NewProtection(cache *ristretto.Cache[[]byte, []byte], storage Storage) *Pro
 	}
 
 	stoneRid, _ := chunk.StateToRuntimeID("minecraft:stone", nil)
+	airRid, _ := chunk.StateToRuntimeID("minecraft:air", nil)
 	count := len(world.Blocks())
 	return &Protection{
 		blocksToHide:      make([]bool, count),
 		transparentBlocks: make([]bool, count),
 		cache:             cache,
 		stoneRid:          stoneRid,
+		airRid:            airRid,
+		storage:           storage,
 	}
 }
 

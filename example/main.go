@@ -32,11 +32,11 @@ func main() {
 	protection := xray.NewProtection(nil, nil)
 
 	// protecting blocks
-	protection.SetTransparent(block.AncientDebris{})
-	protection.SetTransparent(block.DiamondOre{})
-	protection.SetTransparent(block.GoldOre{})
-	protection.SetTransparent(block.IronOre{})
-	protection.SetTransparent(block.Chest{})
+	protection.HideBlock(block.AncientDebris{})
+	protection.HideBlock(block.DiamondOre{})
+	protection.HideBlock(block.GoldOre{})
+	protection.HideBlock(block.IronOre{})
+	protection.HideBlock(block.Chest{})
 
 	// setting transparent blocks
 	for _, bl := range world.Blocks() {
