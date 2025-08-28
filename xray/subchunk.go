@@ -40,7 +40,7 @@ func (p *Protection) HandleSubchunk(sub *packet.SubChunk) {
 		c.Sub()[index] = decodedSC
 
 		pos := protocol.SubChunkPos{sub.Position[0] + int32(entry.Offset[0]), sub.Position[1] + int32(entry.Offset[1]), sub.Position[2] + int32(entry.Offset[2])}
-		if p.meshSubchunk(decodedSC, buf, pos) {
+		if p.meshSubchunk(decodedSC, buf, pos, sub.Dimension) {
 			result := append(chunk.EncodeSubChunk(c, chunk.NetworkEncoding, int(index)), buf.Bytes()...)
 			if cacheEnabled {
 				p.cache.Set(sub.SubChunkEntries[i].RawPayload, result, 0)

@@ -13,7 +13,7 @@ import (
 //go:linkname decodeSubChunk github.com/df-mc/dragonfly/server/world/chunk.decodeSubChunk
 func decodeSubChunk(buf *bytes.Buffer, c *chunk.Chunk, index *byte, e chunk.Encoding) (*chunk.SubChunk, error)
 
-func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos protocol.SubChunkPos) bool {
+func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos protocol.SubChunkPos, dim int32) bool {
 	if sub.Empty() {
 		return false
 	}
@@ -33,7 +33,7 @@ func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos pr
 				int(pos.Y()) + int(y),
 				int(pos.Z()) + int(z),
 			}
-			p.storage.Store(blockPos, bl, ent.Data)
+			p.storage.Store(dim, blockPos, bl, ent.Data)
 		}
 	}
 
@@ -49,7 +49,7 @@ func (p *Protection) meshSubchunk(sub *chunk.SubChunk, buf *bytes.Buffer, pos pr
 						int(pos.Y()) + int(y),
 						int(pos.Z()) + int(z),
 					}
-					p.storage.Store(blockPos, bl, nil)
+					p.storage.Store(dim, blockPos, bl, nil)
 					meshed = true
 				}
 			}
